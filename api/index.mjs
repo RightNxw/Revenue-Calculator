@@ -14,10 +14,17 @@ app.get("/api", async (req, res, next) => {
       `https://sellercentral.amazon.com/rcpublic/productmatch?searchKey=${asin}&countryCode=${countryCode}&locale=en-US`,
       { responseType: "json" }
     );
+
     const response2 = await got(
       `https://sellercentral.amazon.com/rcpublic/getadditionalpronductinfo?countryCode=${countryCode}&asin=${asin}&fnsku=&searchType=GENERAL&locale=en-US`,
       { responseType: "json" }
     );
+
+    // Check if price is defined before accessing amount
+    const priceAmount = response2.body.data.price
+      ? response2.body.data.price.amount
+      : "0";
+
     const response3 = await got.post(
       `https://sellercentral.amazon.com/rcpublic/getfees?countryCode=US&locale=en-US`,
       {
@@ -33,8 +40,8 @@ app.get("/api", async (req, res, next) => {
             packageHeight: "0",
             dimensionUnit: "",
             packageWeight: "0",
-            afnPriceStr: response2.body.data.price.amount,
-            mfnPriceStr: response2.body.data.price.amount,
+            afnPriceStr: priceAmount,
+            mfnPriceStr: priceAmount,
             mfnShippingPriceStr: "0",
             currency: "USD",
             isNewDefined: false,
@@ -65,7 +72,7 @@ app.get("/api", async (req, res, next) => {
       asin,
       fulfillmentFeeTotal: FulfillmentFeeTotal,
       referralFeeTotal: ReferralFeeTotal,
-      salePrice: response2.body.data.price.amount,
+      salePrice: priceAmount,
     };
 
     res.json(data);
