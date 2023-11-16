@@ -8,7 +8,7 @@
     "dev": "concurrently \"npm run start-server\" \"vite\"",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start-server": "node ./api/server.mjs"
+    "start-server": "node ./api/index.mjs"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
