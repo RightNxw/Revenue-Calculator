@@ -11,7 +11,7 @@
     "start-server": "node ./api/index.mjs"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.5.5",
+    "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@vercel/node": "^2.10.2",
